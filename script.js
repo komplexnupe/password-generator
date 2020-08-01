@@ -6,42 +6,50 @@ var uppercase = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M"
 var numeric = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"]
 var specialCharacters = ["!", "@", "&", "$", "%"]
 
-var numberOfCharacters = parseInt(prompt("Your password can be 8-128 characters. How long would you like it to be?"))
+function generatePassword() {
+  var numberOfCharacters = parseInt(prompt("Your password can be 8-128 characters. How long would you like it to be?"))
 
-var pwInput = []
-var pwString = ''
+  var pwInput = []
+  var pwString = ''
 
-if(numberOfCharacters >= 8) {
+  while (numberOfCharacters < 8 || numberOfCharacters > 128) {
+    alert("Follow directions, yo! Let's start over.");
+    var numberOfCharacters = parseInt(prompt("Your password can be 8-128 characters. How long would you like it to be?"))
+  }
+
   alert("Got it! Let's get started.");
-} else {
-  alert("Too short. We'll let it slide this time.");
-}
 
-if (confirm("Would you like to include lowercase letters?")) {
-  pwInput.push(lowercase)
-}
-if (confirm("Would you like to include uppercase letters?")) {
-  pwInput.push(uppercase)
-}
-if (confirm("Would you like to include numbers?")) {
-  pwInput.push(numeric)
-}
-if (confirm("Would you like to include special characters?")) {
-  pwInput.push(specialCharacters)
-}
+  while (pwInput.length === 0) {
+    if (confirm("Would you like to include lowercase letters?")) {
+      pwInput.push(lowercase)
+    }
+    if (confirm("Would you like to include uppercase letters?")) {
+      pwInput.push(uppercase)
+    }
+    if (confirm("Would you like to include numbers?")) {
+      pwInput.push(numeric)
+    }
+    if (confirm("Would you like to include special characters?")) {
+      pwInput.push(specialCharacters)
+    }
+    if (pwInput.length === 0) {
+      alert("You must select at least one character type")
 
-console.log(numberOfCharacters, pwInput)
+    }
+  }
+  console.log(numberOfCharacters, pwInput)
 
-for (var i = 0; i < numberOfCharacters; i++) {
-  var randomCharacterType = Math.floor(Math.random() * pwInput.length)
-  var randomCharacter = Math.floor(Math.random() * pwInput.length)
-  var randomPasswordCharacter = pwInput[randomCharacterType][randomCharacter]
-  pwString += randomPasswordCharacter
-  console.log(randomCharacterType, randomCharacter, randomPasswordCharacter)
+  for (var i = 0; i < numberOfCharacters; i++) {
+    var randomCharacterType = Math.floor(Math.random() * pwInput.length)
+    var randomCharacter = Math.floor(Math.random() * pwInput[randomCharacterType].length)
+    var randomPasswordCharacter = pwInput[randomCharacterType][randomCharacter]
+    pwString += randomPasswordCharacter
+    console.log(randomCharacterType, randomCharacter, randomPasswordCharacter)
+  }
+
+  console.log(pwString)
+  return pwString
 }
-
-console.log(pwString)
-
 // Write password to the #password input
 function writePassword() {
   var password = generatePassword();
@@ -51,9 +59,6 @@ function writePassword() {
 
 }
 
-function generatePassword() {
-  return pwString
-}
 
 // Add event listener to generate button
 generateBtn.addEventListener("click", writePassword);
